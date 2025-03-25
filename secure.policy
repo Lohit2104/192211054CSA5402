@@ -1,0 +1,4 @@
+grant {
+    permission java.io.FilePermission "login.txt", "read,write";
+    permission java.lang.RuntimePermission "exitVM";
+};
