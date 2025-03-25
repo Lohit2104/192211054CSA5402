@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>RSA Encryption</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  </head>
+  <body>
+    <center>
+      <h1>RSA Algorithm</h1>
+      <h2>Implemented Using HTML & JavaScript</h2>
+      <hr />
+      <table>
+        <tr>
+          <td>Enter First Prime Number:</td>
+          <td><input type="number" value="53" id="p" /></td>
+        </tr>
+        <tr>
+          <td>Enter Second Prime Number:</td>
+          <td><input type="number" value="59" id="q" /></td>
+        </tr>
+        <tr>
+          <td>Enter the Message (Plaintext Number):</td>
+          <td><input type="number" value="89" id="msg" /></td>
+        </tr>
+        <tr>
+          <td>Public Key (n):</td>
+          <td><p id="publickey"></p></td>
+        </tr>
+        <tr>
+          <td>Exponent (e):</td>
+          <td><p id="exponent"></p></td>
+        </tr>
+        <tr>
+          <td>Private Key (d):</td>
+          <td><p id="privatekey"></p></td>
+        </tr>
+        <tr>
+          <td>Cipher Text:</td>
+          <td><p id="ciphertext"></p></td>
+        </tr>
+        <tr>
+          <td><button onclick="RSA();">Apply RSA</button></td>
+        </tr>
+      </table>
+    </center>
+
+    <script type="text/javascript">
+      function modExp(base, exp, mod) {
+        let result = 1n;
+        base = BigInt(base);
+        exp = BigInt(exp);
+        mod = BigInt(mod);
+        while (exp > 0n) {
+          if (exp % 2n == 1n) {
+            result = (result * base) % mod;
+          }
+          base = (base * base) % mod;
+          exp = exp / 2n;
+        }
+        return result;
+      }
+
+      function RSA() {
+        var gcd, p, q, no, n, t, e, i, x, d;
+        gcd = function (a, b) {
+          return !b ? a : gcd(b, a % b);
+        };
+
+        p = parseInt(document.getElementById("p").value);
+        q = parseInt(document.getElementById("q").value);
+        no = parseInt(document.getElementById("msg").value);
+        n = p * q;
+        t = (p - 1) * (q - 1);
+
+        for (e = 2; e < t; e++) {
+          if (gcd(e, t) == 1) {
+            break;
+          }
+        }
+
+        for (i = 0; i < 10; i++) {
+          x = 1 + i * t;
+          if (x % e == 0) {
+            d = x / e;
+            break;
+          }
+        }
+
+        let ct = modExp(no, e, n);
+        let dt = modExp(ct, d, n);
+
+        document.getElementById("publickey").innerHTML = n;
+        document.getElementById("exponent").innerHTML = e;
+        document.getElementById("privatekey").innerHTML = d;
+        document.getElementById("ciphertext").innerHTML = ct;
+      }
+    </script>
+  </body>
+</html>
