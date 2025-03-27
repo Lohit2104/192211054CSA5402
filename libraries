@@ -1,0 +1,7 @@
+pip install pyotp
+pip install pycryptodome
+pip install paramiko
+pip install scapy
+pip install scapy
+pip install matplotlib
+pip install psutil
